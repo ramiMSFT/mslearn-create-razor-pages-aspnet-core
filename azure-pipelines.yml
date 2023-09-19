@@ -40,7 +40,7 @@ steps:
     configuration: '$(buildConfiguration)'
   
 - powershell: |
-    Register-PSRepository -Name "PowershellAzureDevopsServices" -SourceLocation "$(PackageFeedEndpoint)" -InstallationPolicy Trusted
+    Register-PSRepository -Name "PowershellAzureDevopsServices" -SourceLocation "$(PackageFeedEndpoint)" -Credential "$(PackageFeedEndpointCredential)" -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
   env:
     VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
