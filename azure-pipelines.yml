@@ -47,7 +47,7 @@ steps:
         $VerbosePreference = "Continue"
         $DebugPreference = "Continue"
     }
-    Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -Credential '$(PackageFeedEndpointCredential)' -InstallationPolicy Trusted
+    Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
   env:
     VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
