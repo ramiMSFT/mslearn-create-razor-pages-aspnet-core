@@ -40,6 +40,13 @@ steps:
     configuration: '$(buildConfiguration)'
   
 - powershell: |
+    if ($env:SYSTEM_DEBUG -eq "true") {
+        Set-PSDebug -Trace 2
+
+        $InformationPreference = "Continue"
+        $VerbosePreference = "Continue"
+        $DebugPreference = "Continue"
+    }
     Register-PSRepository -Name "psRepoPipeline" -SourceLocation "$(PackageFeedEndpoint)" -Credential "$(PackageFeedEndpointCredential)" -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
   env:
