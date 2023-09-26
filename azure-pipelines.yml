@@ -53,6 +53,10 @@ steps:
     VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
 
 - powershell: |
+     echo (Get-PSRepository)
+  displayName: Get-PSRepository
+
+- powershell: |
     Install-Module -Name Get-Hello -Repository psRepoPipeline -Force
   displayName: 'Install Get-Hello PowerShell module'
   env:
