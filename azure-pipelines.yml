@@ -57,7 +57,7 @@ steps:
   displayName: Get-PSRepository
 
 - powershell: |
-    Install-Module -Name Get-Hello -Repository psRepoPipeline -Force
+    Find-Module -Name "Get-Hello" | Install-Module
   displayName: 'Install Get-Hello PowerShell module'
   env:
     VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
