@@ -27,7 +27,9 @@ steps:
   displayName: 'Install .NET SDK'
 
 - pwsh: |
-    Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
+    [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+    Register-PSRepository -Default -Verbose
+    Set-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted 
   displayName: 'Register Azure Artifacts Feed as PSRepository'
   env:
     VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
