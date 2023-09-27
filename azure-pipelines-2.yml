@@ -36,7 +36,7 @@ steps:
 
 - pwsh: |
     # List available modules using PowerShellGet
-    Find-Module -AllAvailable
+    Get-InstalledModule
   displayName: 'List Available PowerShell Modules'
 
 - pwsh: |
