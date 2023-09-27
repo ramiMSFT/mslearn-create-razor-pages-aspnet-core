@@ -9,8 +9,12 @@ variables:
   PackageFeedEndpointCredential: '{"endpointCredentials": [{"endpoint":"$(PackageFeedEndpoint)", "username":"Admin", "password":"$(PsRepoPat)"}]}'
 
 steps:
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'wget -qO- https://aka.ms/install-artifacts-credprovider.sh | bash'
+
 - powershell: |
-    $env:NUGET_PLUGIN_PATHS = "$(vswhere -prerelease -property installationpath)\Common7\IDE\CommonExtensions\Microsoft\NuGet\Plugins\CredentialProvider.Microsoft\CredentialProvider.Microsoft.exe"
     Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
   env:
