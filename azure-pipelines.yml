@@ -22,19 +22,6 @@ steps:
     restoreSolution: '$(solution)'
 
 - powershell: |
-    dir $HOME\Documents\PowerShell\Modules
-    echo "==========="
-    dir $env:ProgramFiles\PowerShell\Modules
-  displayName: Path
-
-- powershell: |
-    if ($env:SYSTEM_DEBUG -eq "true") {
-        Set-PSDebug -Trace 2
-
-        $InformationPreference = "Continue"
-        $VerbosePreference = "Continue"
-        $DebugPreference = "Continue"
-    }
     Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
   env:
@@ -46,7 +33,6 @@ steps:
 
 - powershell: |
     Find-Module -Name "Get-Hello" | Install-Module -Confirm:$false -Force
-    Get-Hello
-  displayName: 'Install and run the Get-Hello PowerShell module'
+  displayName: 'Install the Get-Hello PowerShell module'
   env:
     VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
