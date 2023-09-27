@@ -11,8 +11,6 @@ pool:
 
 variables:
   solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
   PackageFeedEndpoint: 'https://pkgs.dev.azure.com/ramiMSFTDevOps/PsRepository/_packaging/PsRepositoryFeed/nuget/v2'
   PackageFeedEndpointCredential: '{"endpointCredentials": [{"endpoint":"$(PackageFeedEndpoint)", "username":"Admin", "password":"$(AZURE_DEVOPS_PAT)"}]}'
 
@@ -23,22 +21,12 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+- powershell: |
+    dir $HOME\Documents\PowerShell\Modules
+    echo "==========="
+    dir $env:ProgramFiles\PowerShell\Modules
+  displayName: Path
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-  
 - powershell: |
     if ($env:SYSTEM_DEBUG -eq "true") {
         Set-PSDebug -Trace 2
