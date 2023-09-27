@@ -9,17 +9,17 @@ variables:
   PackageFeedEndpointCredential: '{"endpointCredentials": [{"endpoint":"$(PackageFeedEndpoint)", "username":"Admin", "password":"$(PsRepoPat)"}]}'
 
 steps:
-- powershell: |
+- pwsh: |
     Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
   env:
     VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
 
-- powershell: |
+- pwsh: |
      echo (Get-PSRepository)
   displayName: Get-PSRepository
 
-- powershell: |
+- pwsh: |
     Find-Module -Name "Get-Hello" | Install-Module -Confirm:$false -Force
   displayName: 'Install the Get-Hello PowerShell module'
   env:
