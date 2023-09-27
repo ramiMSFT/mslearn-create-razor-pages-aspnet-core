@@ -2,24 +2,24 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-20.04'
 
 variables:
   PackageFeedEndpoint: 'https://pkgs.dev.azure.com/ramiMSFTDevOps/PsRepository/_packaging/PsRepositoryFeed/nuget/v2'
   PackageFeedEndpointCredential: '{"endpointCredentials": [{"endpoint":"$(PackageFeedEndpoint)", "username":"Admin", "password":"$(PsRepoPat)"}]}'
 
 steps:
-- pwsh: |
+- powershell: |
     Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
   env:
     VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
 
-- pwsh: |
+- powershell: |
      echo (Get-PSRepository)
   displayName: Get-PSRepository
 
-- pwsh: |
+- powershell: |
     Find-Module -Name "Get-Hello" | Install-Module -Confirm:$false -Force
   displayName: 'Install the Get-Hello PowerShell module'
   env:
