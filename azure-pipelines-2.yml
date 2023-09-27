@@ -18,6 +18,14 @@ steps:
     sudo apt-get install -y powershell
   displayName: 'Install PowerShell Core'
 
+- script: |
+    # Update the package manager
+    sudo apt-get update
+
+    sudo apt-get install -y dotnet-sdk-6.0
+    dotnet --version
+  displayName: 'Install .NET SDK'
+
 - pwsh: |
     Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
