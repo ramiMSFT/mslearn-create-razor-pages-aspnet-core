@@ -14,13 +14,13 @@ steps:
     targetType: 'inline'
     script: 'wget -qO- https://aka.ms/install-artifacts-credprovider.sh | bash'
 
-- powershell: |
+- pwsh: |
     Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
   env:
     VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
 
-- powershell: |
+- pwsh: |
     Find-Module -Name "Get-Hello" | Install-Module -Confirm:$false -Force
   displayName: 'Install the Get-Hello PowerShell module'
   env:
