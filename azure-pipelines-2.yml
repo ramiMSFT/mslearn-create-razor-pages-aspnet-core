@@ -10,10 +10,7 @@ variables:
 
 steps:
 - powershell: |
-    iex "& { $(irm https://aka.ms/install-artifacts-credprovider.ps1) }
-  displayName: 'Install Artifacts Credential Provider'
-
-- powershell: |
+    $env:NUGET_PLUGIN_PATHS = "$(vswhere -prerelease -property installationpath)\Common7\IDE\CommonExtensions\Microsoft\NuGet\Plugins\CredentialProvider.Microsoft\CredentialProvider.Microsoft.exe"
     Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
   env:
