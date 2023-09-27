@@ -14,6 +14,10 @@ steps:
     targetType: 'inline'
     script: 'wget -qO- https://aka.ms/install-artifacts-credprovider.sh | bash'
 
+- script: |
+    sudo apt-get install -y powershell
+  displayName: 'Install PowerShell Core'
+
 - pwsh: |
     Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
