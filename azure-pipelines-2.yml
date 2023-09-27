@@ -10,14 +10,16 @@ variables:
 
 steps:
 - powershell: |
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    iex "& { $(irm https://aka.ms/install-artifacts-credprovider.ps1) }
+  displayName: 'Install Artifacts Credential Provider'
+
+- powershell: |
     Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
   displayName: 'Register Azure Artifacts Feed as PSRepository'
   env:
     VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
 
 - powershell: |
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     Find-Module -Name "Get-Hello" | Install-Module -Confirm:$false -Force
   displayName: 'Install the Get-Hello PowerShell module'
   env:
