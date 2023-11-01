@@ -1,11 +1,22 @@
-- stage: deploy
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: 'DemoTest1'
+  displayName: 'DemoTest1'
+  jobs: 
+    - job: 'Echo1'
+      steps:
+      - script: echo Hello World!
+- stage: 'DemoTest2'
   jobs:
-  - deployment: deployWeb
-    pool:
-      vmimage: 'ubuntu-latest'
-    environment: 'test'
+  - deployment: 'DeployToTest'
+    environment: 'Test'
     strategy:
-      runOnce:
-        deploy:
-          steps:
-            - script: echo Hello World!
+        runOnce:
+          deploy:
+            steps:
+            - script: echo Hello World 2!
