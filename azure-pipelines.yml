@@ -1,31 +1,11 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
-trigger:
-- main
-
-pool:
-  vmImage: 'Windows-latest'
-
-variables:
-  PackageFeedEndpoint: 'https://pkgs.dev.azure.com/ramiMSFTDevOps/PsRepository/_packaging/PsRepositoryFeed/nuget/v2'
-  PackageFeedEndpointCredential: '{"endpointCredentials": [{"endpoint":"$(PackageFeedEndpoint)", "username":"Admin", "password":"$(AZURE_DEVOPS_PAT)"}]}'
-
-steps:
-- powershell: |
-    Register-PSRepository -Name "psRepoPipeline" -SourceLocation '$(PackageFeedEndpoint)' -InstallationPolicy Trusted
-  displayName: 'Register Azure Artifacts Feed as PSRepository'
-  env:
-    VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
-
-- powershell: |
-     echo (Get-PSRepository)
-  displayName: Get-PSRepository
-
-- powershell: |
-    Find-Module -Name "Get-Hello" | Install-Module -Confirm:$false -Force
-  displayName: 'Install the Get-Hello PowerShell module'
-  env:
-    VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: $(PackageFeedEndpointCredential)
+- stage: deploy
+  jobs:
+  - deployment: deployWeb
+    pool:
+      vmimage: 'ubuntu-latest'
+    environment: 'test'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - script: echo Hello World!
