@@ -14,7 +14,7 @@ stages:
 - stage: 'DemoTest2'
   jobs:
   - deployment: 'DeployToTest'
-    environment: 'Test'
+    environment: 'Demo'
     strategy:
         runOnce:
           deploy:
